@@ -9,30 +9,32 @@ TODO: Write history
 ## Installation
 
 *NOTE: You must have [MacPorts](https://www.macports.org/) installed.*
-Download or clone this repository into your `$HOME` dir (it can be placed anywhere, as long as you use that path in the following instructions):
 
-    cd $HOME
-    git clone https://github.com/dsoares/portfiles.git
+1. Download or clone this repository into your `$HOME` dir (it can be placed anywhere, as long as you use that path in the following instructions):
 
-Now you need to tell MacPorts to look first for Portfiles in this local path.
-Manually edit the file `/opt/local/etc/macports/sources.conf` and insert a URL pointing to your local repository location before the rsync URL as shown:
+        cd $HOME
+        git clone https://github.com/dsoares/portfiles.git
 
-    (...)
-    file:///Users/<your_username>/portfiles [nosync]
-    rsync://rsync.macports.org/release/tarballs/ports.tar [default]
+2. Now you need to tell MacPorts to look first for Portfiles in this local path.
 
-or use this command line to add the line to `/opt/local/etc/macports/sources.conf`:
+    Manually edit the file `/opt/local/etc/macports/sources.conf` and insert a URL pointing to your local repository location before the rsync URL as shown:
 
-    cd /opt/local/etc/macports
-    cp -p sources.conf sources.conf.bak
-    awk '/^rsync:/ && !x {print "file://'"$HOME"'/portfiles [nosync]"; x=1} 1' \
-        sources.conf.bak > sources.conf
-    cd -
+        (...)
+        file:///Users/<your_username>/portfiles [nosync]
+        rsync://rsync.macports.org/release/tarballs/ports.tar [default]
 
-Use `portindex` in the local repository's directory to create or update the index of the ports in your local repository:
+    or use this command line to add the line to `/opt/local/etc/macports/sources.conf`:
 
-    cd $HOME/portfiles
-    portindex
+        cd /opt/local/etc/macports
+        cp -p sources.conf sources.conf.bak
+        awk '/^rsync:/ && !x {print "file://'"$HOME"'/portfiles [nosync]"; x=1} 1' \
+            sources.conf.bak > sources.conf
+        cd -
+
+3. Use `portindex` in the local repository's directory to create or update the index of the ports in your local repository:
+
+        cd $HOME/portfiles
+        portindex
 
 ## Usage
 
