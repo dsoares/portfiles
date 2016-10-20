@@ -26,8 +26,8 @@ TODO: Write history
     or use this command line to add the line to `/opt/local/etc/macports/sources.conf`:
 
         cd /opt/local/etc/macports
-        cp -p sources.conf sources.conf.bak
-        awk '/^rsync:/ && !x {print "file://'"$HOME"'/portfiles [nosync]"; x=1} 1' \
+        sudo cp -p sources.conf sources.conf.bak
+        sudo awk '/^rsync:/ && !x {print "file://'"$HOME"'/portfiles [nosync]"; x=1} 1' \
             sources.conf.bak > sources.conf
         cd -
 
