@@ -41,6 +41,10 @@ if {${subport} == ${name}} {
                             rmd160  91266cae464ab0f9c00f0f764ba9025a6765d83a \
                             sha256  5082b5df7179ff71f4681747c482169f0d5d5b77605816cfe5b93c588021fbb4
 
+    patchfiles-append   patch-install_name.diff \
+                        patch-modules_python_CMakeLists.txt.diff \
+                        patch-modules_java_CMakeLists.txt.diff
+
     livecheck.type      sourceforge
     livecheck.name      opencvlibrary
     livecheck.regex     {/[Oo]pen[Cc][Vv]-([0-9.]+)[a-z]?\.[tz]}
@@ -48,20 +52,27 @@ if {${subport} == ${name}} {
     conflicts           opencv-devel
 }
 
+# NOTE: this subport fetches from commit 7793299 in the master branch.
+# I can not use the last commit in master because of the checksums.
+#
 subport opencv-devel {
 
     long_description ${long_description} \
-Build OpenCV from the git master branch.
+This port builds OpenCV from the git master branch.
 
 #   fetch.type      git
 #   git.url         https://github.com/opencv/opencv.git
-#   git.branch      HEAD
+#   git.branch      origin/7793299e53347d4cd920c2f6e2c5bdb1514f163d
+
     master_sites    https://github.com/opencv/opencv/archive:opencv
-    distfiles       master.zip:opencv
-    worksrcdir      opencv-master
-    checksums       opencv-master.zip \
-                        rmd160 9a6158cd4bba886754c6a195884129484e618896 \
-                        sha256 63f9ba97f58a5ae3ea63a560b26011563dd256c8bac54659252a3227f02e4d4a
+    revision        7793299e53347d4cd920c2f6e2c5bdb1514f163d
+
+    distfiles       ${revision}.zip:opencv
+    worksrcdir      opencv-${revision}
+
+    checksums       ${revision}.zip \
+                        rmd160  b0c54083b4339d1ba6c0d6f011e4396a5e49f421 \
+                        sha256  da739b71ca4e18a47575a5fc3ce784cfdb642cc4d4a77ebe6f85b8ef48cab171
 
     conflicts       opencv
     livecheck.type  none
@@ -80,10 +91,6 @@ depends_lib-append  port:zlib \
                     port:ilmbase \
                     port:openexr \
                     path:lib/libavcodec.dylib:ffmpeg
-
-patchfiles-append   patch-install_name.diff \
-                    patch-modules_python_CMakeLists.txt.diff \
-                    patch-modules_java_CMakeLists.txt.diff
 
 # TODO: check and adapt those patches
 #                    patch-modules_imgcodecs_src_grfmt_tiff.cpp.diff
